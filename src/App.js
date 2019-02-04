@@ -17,7 +17,7 @@ class App extends Component {
     .then(response => response.json())
     .then(json => this.setState({
       categories: json.categories
-    },() => console.log(this.state.categories)))
+    }))
   }
 
   handleCategoryClick = (categoryData) =>{
@@ -29,15 +29,19 @@ class App extends Component {
     }))
   }
 
+  filterBasedOnSaves = () => {
+    return this.state.currentSearchRecipes.filter(meals => {
+      return !this.state.savedRecipes.includes(meals.idMeal)
+    })
+  }
+
   handleSaveRecipes = (recipeInfo)=>{
-    const filterBasedOnSaves = () => {
-      return this.state.currentSearchRecipes.filter(meals => {
-        return !this.state.savedRecipes.includes(meals.idMeal)
-      })
-    }
     this.setState({
-      currentSearchRecipes: filterBasedOnSaves,
-      savedRecipes: [...this.state.savedRecipes, recipeInfo]
+      savedRecipes: [...this.state.savedRecipes, recipeInfo.idMeal]
+    },()=>{
+      this.setState({
+        currentSearchRecipes: this.filterBasedOnSaves()
+      }, console.log(this.state.currentSearchRecipes))
     })
   }
 
