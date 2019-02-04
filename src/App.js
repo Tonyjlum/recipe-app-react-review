@@ -3,11 +3,13 @@ import { Row, Col } from 'react-materialize'
 import Header from './components/Header'
 import CategoryContainer from './components/CategoryContainer'
 import RecipeContainer from './components/RecipeContainer'
+import Recipe from './components/Recipe'
 
 class App extends Component {
   state = {
     categories: [],
-    currentSearchRecipes: []
+    currentSearchRecipes: [],
+    savedRecipes: []
   }
 
   componentDidMount(){
@@ -27,6 +29,21 @@ class App extends Component {
     }))
   }
 
+
+
+  handleSaveRecipes = (recipeInfo)=>{
+    console.log(recipeInfo)
+    const removeRecipeFromSearch = this.state.currentSearchRecipes.filter((r)=>{
+        return r.idMeal !== recipeInfo.idMeal
+      })
+    this.setState({
+      currentSearchRecipes: removeRecipeFromSearch,
+      savedRecipes: [...this.state.savedRecipes, recipeInfo]
+    })
+
+
+  }
+
   render() {
     return (
       <div>
@@ -40,12 +57,14 @@ class App extends Component {
 
           <Col s={4} className='grid-example'>
             <h4>Recipes</h4>
-            <RecipeContainer currentSearchRecipes={this.state.currentSearchRecipes}/>
+            <RecipeContainer currentSearchRecipes={this.state.currentSearchRecipes}
+            handleSaveRecipes={this.handleSaveRecipes}/>
           </Col>
 
           <Col s={4} className='grid-example'>
             <h4>My Recipes</h4>
-            {/* how can we render recipes here? */}
+            <RecipeContainer currentSearchRecipes={this.state.savedRecipes}
+            handleSaveRecipes={this.handleSaveRecipes}/>
           </Col>
         </Row>
       </div>

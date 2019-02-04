@@ -8,7 +8,7 @@ const Recipe = (props) => {
       key={v4()}
       header={<CardTitle key={v4()} image={props.info.strMealThumb} />}
       title={props.info.strMeal}
-      onClick={/* add to my list or remove recipe from my list */null}
+      onClick={()=>{props.handleSaveRecipes(props.info)}}
     />
   )
 }
