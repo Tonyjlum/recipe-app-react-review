@@ -9,7 +9,7 @@ class App extends Component {
   state = {
     categories: [],
     currentSearchRecipes: [],
-    savedRecipes: []
+    savedRecipes: []//just Id of meals?
   }
 
   componentDidMount(){
@@ -29,20 +29,24 @@ class App extends Component {
     }))
   }
 
-
-
   handleSaveRecipes = (recipeInfo)=>{
-    console.log(recipeInfo)
-    const removeRecipeFromSearch = this.state.currentSearchRecipes.filter((r)=>{
-        return r.idMeal !== recipeInfo.idMeal
+    const filterBasedOnSaves = () => {
+      return this.state.currentSearchRecipes.filter(meals => {
+        return !this.state.savedRecipes.includes(meals.idMeal)
       })
+    }
     this.setState({
-      currentSearchRecipes: removeRecipeFromSearch,
+      currentSearchRecipes: filterBasedOnSaves,
       savedRecipes: [...this.state.savedRecipes, recipeInfo]
     })
+  }
+
+  //handle remove recipes
+  handleRemoveSave = (recipeInfo) => {
 
 
   }
+
 
   render() {
     return (
@@ -64,6 +68,7 @@ class App extends Component {
           <Col s={4} className='grid-example'>
             <h4>My Recipes</h4>
             <RecipeContainer currentSearchRecipes={this.state.savedRecipes}
+            handleRemoveSave={this.handleRemoveSave}
             handleSaveRecipes={this.handleSaveRecipes}/>
           </Col>
         </Row>

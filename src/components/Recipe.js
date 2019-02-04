@@ -14,3 +14,12 @@ const Recipe = (props) => {
 }
 
 export default Recipe
+
+// const filterBasedOnSaves = () => {
+//   return recipes.meals.filter(meals => {
+//     return !this.state.savedRecipes.includes(meals.idMeal)
+//   })
+// }
+// this.setState({
+//   currentSearchRecipes: filterBasedOnSaves
+// })
