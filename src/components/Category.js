@@ -6,11 +6,11 @@ const Category = (props) => {
   return (
     <Card
       key={v4()}
-      header={<CardTitle key={v4()} image={/* category image here */} />}
-      title={/* category name here */}
-      actions={[<Button key={v4()} onClick={/* fetch for recipes */} waves='light'>Find Recipes</Button>]}
+      header={<CardTitle key={v4()} image={props.info.strCategoryThumb} />}
+      title={props.info.strCategory}
+      actions={[<Button key={v4()} onClick={/* fetch for recipes */null} waves='light'>Find Recipes</Button>]}
     >
-      {/* category description here */}
+      {props.info.strCategoryDescription}
     </Card>
   )
 }
