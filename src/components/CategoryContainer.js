@@ -7,7 +7,7 @@ class CategoryContainer extends React.Component {
 
   mapCategories = () => {
     return this.props.categories.map( c => {
-      return <Category key={c.idCategory} info={c}/>
+      return <Category key={c.idCategory} info={c} handleCategoryClick={this.props.handleCategoryClick}/>
     })
   }
 
