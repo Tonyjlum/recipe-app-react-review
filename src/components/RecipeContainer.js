@@ -6,7 +6,9 @@ class RecipeContainer extends React.Component {
 
   mapOverRecipes = (recipeCollection)=>{
     return recipeCollection.map((r)=>{
-      return <Recipe key={r.idMeal} info={r} handleSaveRecipes={this.props.handleSaveRecipes}/>
+      return <Recipe key={r.idMeal} info={r} handleSaveRecipes={this.props.handleSaveRecipes}
+      handleRemoveSave={this.props.handleRemoveSave}
+      savedRecipes={this.props.savedRecipes}/>
     })
   }
 

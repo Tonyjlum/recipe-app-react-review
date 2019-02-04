@@ -47,7 +47,7 @@ class App extends Component {
 
   //handle remove recipes
   handleRemoveSave = (recipeInfo) => {
-
+    console.log(recipeInfo)
 
   }
 
@@ -66,14 +66,16 @@ class App extends Component {
           <Col s={4} className='grid-example'>
             <h4>Recipes</h4>
             <RecipeContainer currentSearchRecipes={this.state.currentSearchRecipes}
-            handleSaveRecipes={this.handleSaveRecipes}/>
+            handleSaveRecipes={this.handleSaveRecipes}
+            savedRecipes={this.state.savedRecipes}/>
           </Col>
 
           <Col s={4} className='grid-example'>
             <h4>My Recipes</h4>
             <RecipeContainer currentSearchRecipes={this.state.savedRecipes}
             handleRemoveSave={this.handleRemoveSave}
-            handleSaveRecipes={this.handleSaveRecipes}/>
+            handleSaveRecipes={this.handleSaveRecipes}
+            savedRecipes={this.state.savedRecipes}/>
           </Col>
         </Row>
       </div>
