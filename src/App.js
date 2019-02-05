@@ -8,8 +8,7 @@ import Recipe from './components/Recipe'
 class App extends Component {
   state = {
     categories: [],
-    currentSearchRecipes: [],
-    savedRecipes: []//just Id of meals?
+    currentSearchRecipes: []
   }
 
   componentDidMount(){
@@ -20,37 +19,36 @@ class App extends Component {
     }))
   }
 
+  addSavedKeyToMeals = (meals) =>{
+    return meals.map((meal)=>{
+      return {...meal, saved: false
+      }
+    })
+  }
+
   handleCategoryClick = (categoryData) =>{
     fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryData.strCategory}`)
     .then(res=>res.json())
     .then(recipes=>
     this.setState({
-      currentSearchRecipes: recipes.meals
-    }))
+      currentSearchRecipes: this.addSavedKeyToMeals(recipes.meals)
+    }, ()=>{console.log(this.state.currentSearchRecipes)}))
   }
 
-  filterBasedOnSaves = () => {
-    return this.state.currentSearchRecipes.filter(meals => {
-      return !this.state.savedRecipes.includes(meals.idMeal)
+// this happens on click
+  toggleSaved = (mealId)=>{
+    const updatedMeals = this.state.currentSearchRecipes.map((m)=>{
+      if (m.idMeal===mealId){
+        return {...m, saved: !m.saved}
+      }
+      else{
+        return m
+      }
     })
-  }
-
-  handleSaveRecipes = (recipeInfo)=>{
     this.setState({
-      savedRecipes: [...this.state.savedRecipes, recipeInfo.idMeal]
-    },()=>{
-      this.setState({
-        currentSearchRecipes: this.filterBasedOnSaves()
-      }, console.log(this.state.currentSearchRecipes))
+      currentSearchRecipes: updatedMeals
     })
   }
-
-  //handle remove recipes
-  handleRemoveSave = (recipeInfo) => {
-    console.log(recipeInfo)
-
-  }
-
 
   render() {
     return (
@@ -65,17 +63,14 @@ class App extends Component {
 
           <Col s={4} className='grid-example'>
             <h4>Recipes</h4>
-            <RecipeContainer currentSearchRecipes={this.state.currentSearchRecipes}
-            handleSaveRecipes={this.handleSaveRecipes}
-            savedRecipes={this.state.savedRecipes}/>
+            <RecipeContainer currentSearchRecipes={this.state.currentSearchRecipes.filter(meal=>!meal.saved)}
+            toggleSaved={this.toggleSaved}/>
           </Col>
 
           <Col s={4} className='grid-example'>
             <h4>My Recipes</h4>
-            <RecipeContainer currentSearchRecipes={this.state.savedRecipes}
-            handleRemoveSave={this.handleRemoveSave}
-            handleSaveRecipes={this.handleSaveRecipes}
-            savedRecipes={this.state.savedRecipes}/>
+            <RecipeContainer currentSearchRecipes={this.state.currentSearchRecipes.filter(meal=>meal.saved)}
+            toggleSaved={this.toggleSaved}/>
           </Col>
         </Row>
       </div>
